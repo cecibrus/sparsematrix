@@ -39,7 +39,7 @@ void crear_nodo(struct Nodo **primero, int elemento, int fila, int columna){
         aux->sgte=f;
     }
 }
-int matriz :: find_k(Nodo * lista_inicio, int fila){
+int find_k(Nodo * lista_inicio, int fila){
     struct Nodo *lista= lista_inicio;
     int cont,i,k=0;
     for(i=0;i<fila;i++){
@@ -56,24 +56,23 @@ int matriz :: find_k(Nodo * lista_inicio, int fila){
 };
 /*Imprime la representacion de la matriz*/
 void imprimir(struct Nodo *inicio_lista, int fila){
-	   struct Nodo * lista=inicio_lista;
+    struct Nodo * lista=inicio_lista;
     int cont=0,k;
-   	k=find_k(inicio_lista, fila);
-	   cout<<"esta es k"<<k<<endl;
+    k=find_k(inicio_lista, fila);
     cout<<"DATOS"<<endl;
     while(lista!=NULL){
       for(int i=0;i<fila;i++){
-		      for(cont=0;cont<k;cont++){
-                if(lista==NULL || (lista->pos_fila)>i){
-                    cout<<"*"<<" ";
-                }else{
-                	cout<<lista->valor<<" ";
-                    lista=lista->sgte;
-               }
-        	}
-         cout<<endl;
+        for(cont=0;cont<k;cont++){
+           if(lista==NULL || (lista->pos_fila)>i){
+              cout<<"*"<<" ";
+           }else{
+               cout<<lista->valor<<" ";
+               lista=lista->sgte;
+           }
+        }
+        cout<<endl;
       }
-	   }
+    }
     cout<<"INDICES"<<endl;
     lista=inicio_lista;
     while(lista!=NULL){
@@ -87,7 +86,7 @@ void imprimir(struct Nodo *inicio_lista, int fila){
               }
         }
         cout<<endl;
-    	 }
+      }
     } 
 }
 //declaraciones de las funciones para poder utilizarlas mas abajo antes de que sean definidas
@@ -164,7 +163,6 @@ class matriz{
         struct Nodo *inicio_lista= NULL; //el puntero al nodo en el que inicia la lista enlazada
         //metodos
         void crearLinkedList(int mat_normal[M][N]);
-        int find_k(Nodo * lista_inicio, int fila);
         void representacion(struct Nodo *inicio_lista, int fila);
         struct Nodo * transpuesta();
         struct Nodo * sumar_matrices(struct Nodo *inicio_lista2, int fila);
@@ -398,7 +396,7 @@ int main(){
     mat.obtener_fila(mat.inicio_lista, 3);
     mat.obtener_columna(mat.inicio_lista, 4);
     
-    cout<<"\n\nREPRESENTACION DE LA SUMA DE MATRICES";
+    cout<<"\n\nREPRESENTACION DE LA SUMA DE MATRICES\n";
     struct Nodo * resultado;
     matriz mat2;
     mat2.crearLinkedList(mat_dos);
@@ -406,6 +404,6 @@ int main(){
     imprimir(resultado,M);
     int f=1,c=3;
     int elemento=mat.obtener_elemento(mat.inicio_lista,f,c);
-    cout<<"\n\nElemento buscado de la posicion ("<<f<<","<<c<<")="<<elemento;
+    cout<<"\n\nElemento buscado de la posicion ("<<f<<","<<c<<")="<<elemento<<endl;
     return 0;
 }
