@@ -400,7 +400,7 @@ int main(){
     struct Nodo * resultado;
     matriz mat2;
     mat2.crearLinkedList(mat_dos);
-    resultado=mat.suma_matrices(mat2.inicio_lista,M);
+    resultado=mat.sumar_matrices(mat2.inicio_lista,M);
     imprimir(resultado,M);
     int f=1,c=3;
     int elemento=mat.obtener_elemento(mat.inicio_lista,f,c);
