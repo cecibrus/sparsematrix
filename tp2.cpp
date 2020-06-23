@@ -378,7 +378,12 @@ int main(){
         {0 , 0 , 0 , 0 , 0 }, 
         {0 , 2 , 6 , 0 , 0 } 
     };
-
+    int mat_dos[M][N]={ 
+        {1 , 0 , 2 , 3 , 4 }, 
+        {0 , 0 , 5 , 9 , 2 }, 
+        {0 , 2 , 2 , 2 , 0 }, 
+        {5 , 2 , 2 , 0 , 0 } 
+    };
     matriz mat;
 
     mat.crearLinkedList(mat_normal);
@@ -392,5 +397,15 @@ int main(){
     cout << endl;
     mat.obtener_fila(mat.inicio_lista, 3);
     mat.obtener_columna(mat.inicio_lista, 4);
+    
+    cout<<"\n\nREPRESENTACION DE LA SUMA DE MATRICES";
+    struct Nodo * resultado;
+    matriz mat2;
+    mat2.crearLinkedList(mat_dos);
+    resultado=mat.suma_matrices(mat2.inicio_lista,M);
+    imprimir(resultado,M);
+    int f=1,c=3;
+    int elemento=mat.obtener_elemento(mat.inicio_lista,f,c);
+    cout<<"\n\nElemento buscado de la posicion ("<<f<<","<<c<<")="<<elemento;
     return 0;
 }
