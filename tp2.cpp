@@ -245,73 +245,73 @@ struct Nodo * matriz :: transpuesta(){
   representacion resultante. Recibe como parametros el puntero al inicio de la lista de unas de 
   las representaciones con la que se realizara dicha suma, y la cantidad de filas que posee.*/
 struct Nodo * matriz :: sumar_matrices(struct Nodo *inicio_lista2, int fila){
-    struct Nodo * lista1 = inicio_lista;
-    struct Nodo * lista2 = inicio_lista2;
-    struct Nodo * result = NULL;
-    int k1,k2,k,cont,i,elemento,f,c;
-    elemento=0,f=0,c=0;
-    k1=find_k(inicio_lista, fila);
-    k2=find_k(inicio_lista2, fila);
-			 if(k1<k2){
-				 k=k2;
-			 }else{
-				 k=k1;
-			 }
-    for(i=0; i<fila  ; i++){
-      for(cont=0 ; cont<k ; cont++){
-					  		f=0,c=0,elemento=0; 
-         if(lista1->pos_fila == lista2->pos_fila){	// Primero vemos si sus filas son iguales
-	       			if(lista1->pos_columna==lista2->pos_columna){	//Si las columnas son iguales, se suman
-	       			   elemento = (lista1->valor) + (lista2-> valor);
-	       					 f = lista1->pos_fila ;
-	       					 c = lista1->pos_columna ;
-							       lista1=lista1->sgte;
-							       lista2=lista2->sgte;
-						     }else{ 
-							        if((lista1->pos_columna) < (lista2->pos_columna)){	// se copia el valor de la menor columna
-								          elemento = lista1->valor ;
-								          f = lista1->pos_fila;
-								          c = lista1->pos_columna;
-								          lista1=lista1->sgte;	
-							        }else{
-								         elemento = lista2-> valor ;
-								         f = lista2->pos_fila ;
-								         c = lista2->pos_columna;
-								         lista2=lista2->sgte;
-							       }
-						     }
-					   }else{
-					 	       if( (lista1->pos_fila) < (lista2->pos_fila )){
-							          elemento = lista1->valor ;
-							          f = lista1->pos_fila ;
-							          c= lista1->pos_columna;
-							          lista1=lista1->sgte;
-						        }else{
-							          elemento = lista2->valor ;
-							          f = lista2->pos_fila;
-							          c = lista2->pos_columna;
-							          lista2=lista2->sgte;
-						        }
-					   }
-					   crear_nodo(&result,elemento,f,c);
-					   if(lista1==NULL || lista2==NULL)
-						    break;
-				  }
-			 }
-			 if(lista1==NULL){
-				  while(lista2!=NULL){
-					    crear_nodo(&result,lista2->valor, lista2->pos_fila, lista2->pos_columna);
-					    lista2=lista2->sgte;
-				  }
-			 }
-			 if(lista2==NULL){
-				  while(lista1!=NULL){
-					   crear_nodo(&result,lista1->valor, lista1->pos_fila, lista1->pos_columna);
-					   lista1=lista1->sgte;
-				  }
-			 } 
-			 return result;   	
-		};
+   struct Nodo * lista1 = inicio_lista;
+   struct Nodo * lista2 = inicio_lista2;
+   struct Nodo * result = NULL;
+   int k1,k2,k,cont,i,elemento,f,c;
+   elemento=0,f=0,c=0;
+   k1=find_k(inicio_lista, fila);
+   k2=find_k(inicio_lista2, fila);
+   if(k1<k2){
+	k=k2;
+   }else{
+	k=k1;
+   }
+   for(i=0; i<fila  ; i++){
+       	for(cont=0 ; cont<k ; cont++){
+		if(lista1->pos_fila == lista2->pos_fila){	// Primero vemos si sus filas son iguales
+	       		if(lista1->pos_columna==lista2->pos_columna){	//Si las columnas son iguales, se suman
+	       			elemento = (lista1->valor) + (lista2-> valor);
+	       			f = lista1->pos_fila ;
+	       			c = lista1->pos_columna ;
+				lista1=lista1->sgte;
+				lista2=lista2->sgte;
+			}else{ 
+				if((lista1->pos_columna) < (lista2->pos_columna)){	// se copia el valor de la menor columna
+					elemento = lista1->valor ;
+					f = lista1->pos_fila;
+					c = lista1->pos_columna;
+					lista1=lista1->sgte;	
+				}else{
+					elemento = lista2-> valor ;
+					f = lista2->pos_fila ;
+					c = lista2->pos_columna;
+					lista2=lista2->sgte;
+				}
+			}
+		}else{
+			if( (lista1->pos_fila) < (lista2->pos_fila )){
+				elemento = lista1->valor ;
+				f = lista1->pos_fila ;
+				c= lista1->pos_columna;
+				lista1=lista1->sgte;
+			}else{
+				elemento = lista2->valor ;
+				f = lista2->pos_fila;
+				c = lista2->pos_columna;
+				lista2=lista2->sgte;
+			}
+		}
+		crear_nodo(&result,elemento,f,c);
+		f=0,c=0,elemento=0;
+		if(lista1==NULL || lista2==NULL)
+			break;
+	}
+   }
+   if(lista1==NULL){
+	while(lista2!=NULL){
+		crear_nodo(&result,lista2->valor, lista2->pos_fila, lista2->pos_columna);
+		lista2=lista2->sgte;
+	}
+   }
+   if(lista2==NULL){
+	while(lista1!=NULL){
+		crear_nodo(&result,lista1->valor, lista1->pos_fila, lista1->pos_columna);
+		lista1=lista1->sgte;
+	}
+   } 
+   return result;   	
+};
 		
 
 /*La funcion obtener_fila, recibe como parametros una representacion y un entero fila, e  
@@ -357,14 +357,14 @@ void matriz:: obtener_columna(struct Nodo * inicio_lista, int col){
 }
 /*La funcion obtener_elemento se encarga de retornar un elemento solicitado, a traves de los parametros fila y columna en una representacion dada*/
 int matriz :: obtener_elemento(struct Nodo * inicio_lista, int f,int c){
-			struct Nodo * lista=inicio_lista;
-			for(int i=0; (lista->pos_fila)!=f ; i++){
-				  lista=lista->sgte;
-			}
-			for(int i=0; (lista->pos_columna)!=c ; i++){
-				  lista=lista->sgte;
-			}
-			return lista->valor;
+    struct Nodo * lista=inicio_lista;
+    for(int i=0; (lista->pos_fila)!=f ; i++){
+	    lista=lista->sgte;
+    }
+    for(int i=0; (lista->pos_columna)!=c ; i++){
+	    lista=lista->sgte;
+    }
+    return lista->valor;
 }
 
 //P R O G R A M A     P R I N C I P A L 
