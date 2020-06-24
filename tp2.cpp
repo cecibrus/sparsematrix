@@ -257,59 +257,63 @@ struct Nodo * matriz :: sumar_matrices(struct Nodo *inicio_lista2, int fila){
    }else{
 	k=k1;
    }
-   for(i=0; i<fila  ; i++){
-       	for(cont=0 ; cont<k ; cont++){
-		if(lista1->pos_fila == lista2->pos_fila){	// Primero vemos si sus filas son iguales
-	       		if(lista1->pos_columna==lista2->pos_columna){	//Si las columnas son iguales, se suman
-	       			elemento = (lista1->valor) + (lista2-> valor);
-	       			f = lista1->pos_fila ;
-	       			c = lista1->pos_columna ;
-				lista1=lista1->sgte;
-				lista2=lista2->sgte;
-			}else{ 
-				if((lista1->pos_columna) < (lista2->pos_columna)){	// se copia el valor de la menor columna
+   try{
+	   for(i=0; i<fila  ; i++){
+	       	for(cont=0 ; cont<k ; cont++){
+			if(lista1->pos_fila == lista2->pos_fila){	// Primero vemos si sus filas son iguales
+		       		if(lista1->pos_columna==lista2->pos_columna){	//Si las columnas son iguales, se suman
+		       			elemento = (lista1->valor) + (lista2-> valor);
+		       			f = lista1->pos_fila ;
+		       			c = lista1->pos_columna ;
+					lista1=lista1->sgte;
+					lista2=lista2->sgte;
+				}else{ 
+					if((lista1->pos_columna) < (lista2->pos_columna)){	// se copia el valor de la menor columna
+						elemento = lista1->valor ;
+						f = lista1->pos_fila;
+						c = lista1->pos_columna;
+						lista1=lista1->sgte;	
+					}else{
+						elemento = lista2-> valor ;
+						f = lista2->pos_fila ;
+						c = lista2->pos_columna;
+						lista2=lista2->sgte;
+					}
+				}
+			}else{
+				if( (lista1->pos_fila) < (lista2->pos_fila )){
 					elemento = lista1->valor ;
-					f = lista1->pos_fila;
-					c = lista1->pos_columna;
-					lista1=lista1->sgte;	
+					f = lista1->pos_fila ;
+					c= lista1->pos_columna;
+					lista1=lista1->sgte;
 				}else{
-					elemento = lista2-> valor ;
-					f = lista2->pos_fila ;
+					elemento = lista2->valor ;
+					f = lista2->pos_fila;
 					c = lista2->pos_columna;
 					lista2=lista2->sgte;
 				}
 			}
-		}else{
-			if( (lista1->pos_fila) < (lista2->pos_fila )){
-				elemento = lista1->valor ;
-				f = lista1->pos_fila ;
-				c= lista1->pos_columna;
-				lista1=lista1->sgte;
-			}else{
-				elemento = lista2->valor ;
-				f = lista2->pos_fila;
-				c = lista2->pos_columna;
-				lista2=lista2->sgte;
-			}
+			crear_nodo(&result,elemento,f,c);
+			f=0,c=0,elemento=0;
+			if(lista1==NULL || lista2==NULL)
+				break;
 		}
-		crear_nodo(&result,elemento,f,c);
-		f=0,c=0,elemento=0;
-		if(lista1==NULL || lista2==NULL)
-			break;
+	   }
+	   if(lista1==NULL){
+		while(lista2!=NULL){
+			crear_nodo(&result,lista2->valor, lista2->pos_fila, lista2->pos_columna);
+			lista2=lista2->sgte;
+		}
+	   }
+	   if(lista2==NULL){
+		while(lista1!=NULL){
+			crear_nodo(&result,lista1->valor, lista1->pos_fila, lista1->pos_columna);
+			lista1=lista1->sgte;
+		}
+	   } 
+   }catch(...){
+		cout<<"\nError. No se pudo realizar la suma entre ambas representaciones."<<endl;
 	}
-   }
-   if(lista1==NULL){
-	while(lista2!=NULL){
-		crear_nodo(&result,lista2->valor, lista2->pos_fila, lista2->pos_columna);
-		lista2=lista2->sgte;
-	}
-   }
-   if(lista2==NULL){
-	while(lista1!=NULL){
-		crear_nodo(&result,lista1->valor, lista1->pos_fila, lista1->pos_columna);
-		lista1=lista1->sgte;
-	}
-   } 
    return result;   	
 };
 		
@@ -358,14 +362,23 @@ void matriz:: obtener_columna(struct Nodo * inicio_lista, int col){
 /*La funcion obtener_elemento se encarga de retornar un elemento solicitado, a traves de los parametros fila y columna en una representacion dada*/
 int matriz :: obtener_elemento(struct Nodo * inicio_lista, int f,int c){
     struct Nodo * lista=inicio_lista;
-    for(int i=0; (lista->pos_fila)!=f ; i++){
-	    lista=lista->sgte;
-    }
-    for(int i=0; (lista->pos_columna)!=c ; i++){
-	    lista=lista->sgte;
-    }
+    if(f<0 || c<0){
+    	cout<<"\nError. Posicion invalida\n";
+    	return -1;
+	}
+	try{
+	    for(int i=0; (lista->pos_fila)!=f  ; i++){
+		    lista=lista->sgte;
+	    }
+	    for(int i=0; (lista->pos_columna)!=c ; i++){
+		    lista=lista->sgte;
+	    }
+	}catch(...){
+		cout<<"Error. No se pudo encontrar el elemento de esa posicion\n";
+		return -1;
+	}
     return lista->valor;
-}
+};
 
 //P R O G R A M A     P R I N C I P A L 
 int main(){
@@ -404,6 +417,7 @@ int main(){
     imprimir(resultado,M);
     int f=1,c=3;
     int elemento=mat.obtener_elemento(mat.inicio_lista,f,c);
-    cout<<"\n\nElemento buscado de la posicion ("<<f<<","<<c<<")="<<elemento<<endl;
+    if(elemento>0)
+	    cout<<"\n\nElemento buscado de la posicion ("<<f<<","<<c<<")="<<elemento<<endl;
     return 0;
 }
